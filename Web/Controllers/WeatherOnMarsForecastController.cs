@@ -3,22 +3,21 @@ using Microsoft.AspNetCore.Mvc;
 namespace api_versioning_828_repro.Controllers;
 
 [Route("[controller]")]
-public class WeatherForecastController : BaseApiController
+public class WeatherOnMarsForecastController : BaseApiController
 {
     private static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ILogger<WeatherOnMarsForecastController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherOnMarsForecastController(ILogger<WeatherOnMarsForecastController> logger)
     {
         _logger = logger;
     }
 
     [HttpGet("today")]
-    [ApiVersion("2.0")]
     public ActionResult GetWeatherToday()
     {
         return Ok(new
@@ -35,7 +34,6 @@ public class WeatherForecastController : BaseApiController
     }
 
     [HttpGet("yesterday")]
-    [ApiVersion("2.0")]
     public ActionResult GetWeatherFromYesterday()
     {
         return Ok(new
@@ -50,8 +48,7 @@ public class WeatherForecastController : BaseApiController
         });
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
-    [ApiVersionNeutral] // No need to ignore it, as not specifying a version seems to have the same effect
+    //[ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet("tomorrow")]
     // REPRO: No ApiVersion is specified, but CustomApiVersionSelector still receives 2.0 in its model
     public ActionResult GetWeatherTomorrow()
